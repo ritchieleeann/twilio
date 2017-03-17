@@ -17,11 +17,23 @@ def incoming_call():
 def play_game():
     """Handle key press from player and respond"""
 
-    digit_pressed = request.values.get('Digits', None)
-    if digit_pressed == "1":
-        response = twiml.Response()
-        response.say("Your number was {}".format(digit_pressed), voice='woman')
-        return str(response)
+    number = request.values.get('Digits', None)
+    fizz_buzz = get_response(number)
+
+    response = twiml.Response()
+    response.say(fizz_buzz, voice='woman')
+    return str(response)
+
+def get_response(entered_number):
+    fizzy_response = ""
+    for n in range(entered_number):
+        if n % 3 == 0:
+            fizzy_response += "Fizz"
+        elif n % 5 == 0:
+            fizzy_response += "Buzz"
+        else:
+            fizzy_response += str(entered_number)
+    return fizzy_response
 
 if __name__ == "__main__":
     app.run(debug=True)

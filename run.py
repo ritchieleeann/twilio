@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 from twilio import twiml
 
 app = Flask(__name__)
@@ -17,22 +18,29 @@ def incoming_call():
 def play_game():
     """Handle key press from player and respond"""
 
-    number = request.values.get('Digits', None)
-    fizz_buzz = get_response(number)
-
     response = twiml.Response()
-    response.say(fizz_buzz, voice='woman')
+
+    if 'Digits' in request.values:
+        number = int(request.values['Digits'].strip('#'))
+        fizz_buzz = get_response(number)
+
+        response.say(fizz_buzz, voice='woman')
+
+    response.redirect('/incoming_call')
+
     return str(response)
 
 def get_response(entered_number):
     fizzy_response = ""
-    for n in range(entered_number):
-        if n % 3 == 0:
-            fizzy_response += "Fizz"
+    for n in range(1, entered_number+1):
+        if n % 3 == 0 and n % 5 == 0:
+            fizzy_response += "Fizz Buzz "
+        elif n % 3 == 0:
+            fizzy_response += "Fizz "
         elif n % 5 == 0:
-            fizzy_response += "Buzz"
+            fizzy_response += "Buzz "
         else:
-            fizzy_response += str(entered_number)
+            fizzy_response += "{} ".format(n)
     return fizzy_response
 
 if __name__ == "__main__":

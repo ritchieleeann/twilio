@@ -28,8 +28,6 @@ def play_game():
 
         response.say(fizz_buzz, voice='woman')
 
-    response.redirect('/')
-
     return str(response)
 
 def get_response(entered_number):

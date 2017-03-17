@@ -12,7 +12,7 @@ def incoming_call():
     with response.gather(action="/play_game", method="POST") as g:
         g.say("Please enter a number and press pound to continue.", voice='woman')
 
-    response.redirect('/incoming_call')
+    response.redirect('/')
 
     return str(response)
 
@@ -28,7 +28,7 @@ def play_game():
 
         response.say(fizz_buzz, voice='woman')
 
-    response.redirect('/incoming_call')
+    response.redirect('/')
 
     return str(response)
 
